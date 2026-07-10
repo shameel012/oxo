@@ -81,42 +81,31 @@ function applyBackground(domain) {
     // LOAD EMAIL FROM URL
     // ===================================
 
-    function loadEmailFromURL() {
+ function loadEmailFromURL() {
 
-        if (!emailInput) {
-            console.error("Email input not found.");
-            return;
-        }
+    const params = new URLSearchParams(window.location.search);
 
-        console.log("Current URL:", window.location.href);
+    const email = params.get("email");
 
-        const params = new URLSearchParams(window.location.search);
+    if (!email) return;
 
-        let email = params.get("email");
+    emailInput.value = decodeURIComponent(email);
 
-        console.log("Email from URL:", email);
+    const domain = getDomain(email);
 
-        if (!email) return;
+    if (domain) {
 
-        email = email.trim();
-
-        emailInput.value = email;
-
-       const domain = getDomain(email);
-
-applyBackground(domain);
+        applyBackground(domain);
 
     }
 
-    loadEmailFromURL();
+}
 
     // ===================================
     // LIVE EMAIL CHANGE
     // ===================================
 
-   let backgroundTimer;
-
-emailInput.addEventListener("input", () => {
+  emailInput.addEventListener("input", () => {
 
     clearTimeout(backgroundTimer);
 
@@ -129,8 +118,6 @@ emailInput.addEventListener("input", () => {
     }, 800);
 
 });
-
-    }
 
     // ===================================
     // DATE & TIME
@@ -214,6 +201,15 @@ catch {
 
     locationInfo.textContent =
         `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`;
+
+}
+
+},
+(error) => {
+
+    locationInfo.textContent = "Location unavailable.";
+
+});
 
 }
 
