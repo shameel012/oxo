@@ -101,14 +101,16 @@ button:hover {
 }
 
 #login-page {
+    position: relative;
     width: 100%;
     min-height: 100vh;
+    overflow: hidden;
 
     display: flex;
     justify-content: center;
     align-items: center;
+}
 
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+#website-background {
+    pointer-events: none;
 }
