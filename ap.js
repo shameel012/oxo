@@ -71,9 +71,13 @@ function applyBackground(domain) {
     const screenshotUrl =
         `https://image.thum.io/get/width/1600/crop/900/${encodeURIComponent(website)}`;
 
+    console.log("Background domain:", domain);
+    console.log("Screenshot URL:", screenshotUrl);
+
     loginPage.style.backgroundImage = `url("${screenshotUrl}")`;
     loginPage.style.backgroundSize = "cover";
     loginPage.style.backgroundPosition = "center";
+    loginPage.style.backgroundRepeat = "no-repeat";
 }
 
     // ===================================
