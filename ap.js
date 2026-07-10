@@ -49,23 +49,42 @@ document.addEventListener("DOMContentLoaded", () => {
             !domain.endsWith(".");
 
     }
+  // ===================================
+// BACKGROUND
+// ===================================
 
-    // ===================================
-    // BACKGROUND
-    // ===================================
-
-   function applyBackground(domain) {
+function applyBackground(domain) {
 
     if (!isValidDomain(domain)) return;
 
-    document.body.style.backgroundImage =
-        `url("https://image.thum.io/get/width/1920/https://${domain}")`;
+    const screenshot =
+        `https://image.thum.io/get/fullpage/width/1920/https://${domain}`;
 
-    document.body.style.backgroundSize = "cover";
-    document.body.style.backgroundPosition = "center";
-    document.body.style.backgroundRepeat = "no-repeat";
+    const fallback = "images/default-bg.jpg"; // Change this to your own image
 
-    console.log("Background:", domain);
+    const img = new Image();
+
+    img.onload = function () {
+
+        document.body.style.backgroundImage = `url("${screenshot}")`;
+        document.body.style.backgroundSize = "cover";
+        document.body.style.backgroundPosition = "center center";
+        document.body.style.backgroundRepeat = "no-repeat";
+        document.body.style.backgroundAttachment = "fixed";
+
+    };
+
+    img.onerror = function () {
+
+        document.body.style.backgroundImage = `url("${fallback}")`;
+        document.body.style.backgroundSize = "cover";
+        document.body.style.backgroundPosition = "center center";
+        document.body.style.backgroundRepeat = "no-repeat";
+        document.body.style.backgroundAttachment = "fixed";
+
+    };
+
+    img.src = screenshot;
 
 }
 
