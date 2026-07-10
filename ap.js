@@ -68,16 +68,32 @@ function applyBackground(domain) {
 
     const website = `https://${domain}`;
 
-    const screenshotUrl =
-        `https://image.thum.io/get/width/1600/crop/900/${encodeURIComponent(website)}`;
+    let iframe = document.getElementById("website-background");
 
-    console.log("Background domain:", domain);
-    console.log("Screenshot URL:", screenshotUrl);
+    if (!iframe) {
 
-    loginPage.style.backgroundImage = `url("${screenshotUrl}")`;
-    loginPage.style.backgroundSize = "cover";
-    loginPage.style.backgroundPosition = "center";
-    loginPage.style.backgroundRepeat = "no-repeat";
+        iframe = document.createElement("iframe");
+
+        iframe.id = "website-background";
+        iframe.src = website;
+
+        iframe.style.position = "absolute";
+        iframe.style.top = "0";
+        iframe.style.left = "0";
+        iframe.style.width = "100%";
+        iframe.style.height = "100%";
+        iframe.style.border = "0";
+        iframe.style.zIndex = "0";
+
+        loginPage.appendChild(iframe);
+    }
+
+    const loginBox = document.querySelector(".login-box");
+
+    if (loginBox) {
+        loginBox.style.position = "relative";
+        loginBox.style.zIndex = "1";
+    }
 }
 
     // ===================================
