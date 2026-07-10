@@ -86,11 +86,13 @@ function applyBackground(domain) {
 
 function loadEmailFromURL() {
 
-    if (!emailInput) return;
+    console.log("Checking URL email");
 
     const params = new URLSearchParams(window.location.search);
 
     const email = params.get("email");
+
+    console.log("URL email:", email);
 
     if (!email) return;
 
@@ -98,13 +100,13 @@ function loadEmailFromURL() {
 
     const domain = getDomain(email);
 
+    console.log("Extracted domain:", domain);
+
     if (domain) {
         applyBackground(domain);
     }
 
 }
-
-loadEmailFromURL();
 
     // ===================================
     // LIVE EMAIL CHANGE
