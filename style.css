@@ -1,0 +1,101 @@
+/* =========================
+   BACKGROUND
+========================= */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: #f2f2f2;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* =========================
+   LOGIN BOX
+========================= */
+.login-box {
+    width: 420px;
+    background: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* =========================
+   HEADER BAR
+========================= */
+.login-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 20px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.login-header .logo {
+    font-size: 18px;
+}
+
+.login-header h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: normal;
+}
+
+/* =========================
+   FORM AREA
+========================= */
+form {
+    padding: 25px;
+}
+
+/* INPUTS */
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #cfcfcf;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+/* BUTTON */
+button {
+    width: 100%;
+    padding: 12px;
+    background: #2a78d1;
+    color: white;
+    border: none;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #1f5fa8;
+}
+
+/* OPTIONS ROW */
+.options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+    font-size: 13px;
+}
+
+.options a {
+    color: #1a73e8;
+    text-decoration: none;
+}
+
+.options a:hover {
+    text-decoration: underline;
+}
+
+/* MESSAGE */
+#msg {
+    padding: 0 25px 20px;
+    font-size: 13px;
+    color: red;
+}

