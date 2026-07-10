@@ -83,7 +83,6 @@ function applyBackground(domain) {
     // ===================================
     // LOAD EMAIL FROM URL
     // ===================================
-
 function loadEmailFromURL() {
 
     console.log("Checking URL email");
@@ -107,6 +106,8 @@ function loadEmailFromURL() {
     }
 
 }
+
+loadEmailFromURL();
 
     // ===================================
     // LIVE EMAIL CHANGE
